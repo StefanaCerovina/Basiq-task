@@ -167,32 +167,36 @@ function getAveragePayments(token, job_url) {
       }, 0);
       clearInterval(intr);
     }
+    console.log("Retrieving transactions, please be patient...");
   }, 15000);
 }
-
-if (process.env.API_KEY === "") {
-  console.log("Please set valid API_KEY");
+if (!process.env.API_KEY || !process.env.BASE_URL) {
+  console.log("Please set API_KEY and BASE_URL environment variables.");
 } else {
-  authenticate().then(token => {
-    //If provided user_id and connection_id, do not create new
-    if (process.argv[2] && process.argv[3]) {
-      let arg1 = process.argv[2].split("=");
-      let arg2 = process.argv[3].split("=");
-      if (arg1[0] === "user_id" && arg2[0] === "connection_id") {
-        let user_id = arg1[1];
-        let connection_id = arg2[1];
-        refreshConnection(token, user_id, connection_id).then(job_url => {
-          getAveragePayments(token, job_url);
-        });
+  authenticate()
+    .then(token => {
+      //If provided user_id and connection_id, do not create new
+      if (process.argv[2] && process.argv[3]) {
+        let arg1 = process.argv[2].split("=");
+        let arg2 = process.argv[3].split("=");
+        if (arg1[0] === "user_id" && arg2[0] === "connection_id") {
+          let user_id = arg1[1];
+          let connection_id = arg2[1];
+          refreshConnection(token, user_id, connection_id).then(job_url => {
+            getAveragePayments(token, job_url);
+          });
+        } else {
+          console.log("You should provide both userID and connectionID");
+        }
       } else {
-        console.log("You should provide both userID and connectionID");
+        createUser(token)
+          .then(user_id =>
+            createConnection(token, user_id).then(job_url => {
+              getAveragePayments(token, job_url);
+            })
+          )
+          .catch(e => console.log(e));
       }
-    } else {
-      createUser(token).then(user_id =>
-        createConnection(token, user_id).then(job_url => {
-          getAveragePayments(token, job_url);
-        })
-      );
-    }
-  });
+    })
+    .catch(e => console.log(e));
 }
