@@ -1,0 +1,24 @@
+{
+  "name": "basiq_task",
+  "version": "1.0.0",
+  "description": "Calculate average payments for each category",
+  "main": "avg_cat_cons.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^7.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StefanaCerovina/Basiq-task.git"
+  },
+  "author": "Stefana Cerovina",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StefanaCerovina/Basiq-task/issues"
+  },
+  "homepage": "https://github.com/StefanaCerovina/Basiq-task#readme"
+}
