@@ -157,10 +157,8 @@ function getAveragePayments(token, job_url) {
               "Category: ",
               categories[cat]["title"],
               "Average payments: ",
-              Math.round(
-                (categories[cat]["totalAmount"] * 1.0) /
-                  categories[cat]["numberOfTransactions"]
-              )
+              (categories[cat]["totalAmount"] * 1.0) /
+                categories[cat]["numberOfTransactions"]
             );
           }
         });
